@@ -2,5 +2,6 @@
 {
     public class DepartmentSubjectEntity
     {
+        public int Id { get; set; }
     }
 }
