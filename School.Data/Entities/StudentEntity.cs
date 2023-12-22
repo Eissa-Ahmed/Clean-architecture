@@ -11,7 +11,7 @@ public class StudentEntity
     public string Name { get; set; } = null!;
     public string? Adress { get; set; } = null;
     public string Phone { get; set; } = null!;
-    public string? DepartmentId { get; set; } = null;
+    public int? DepartmentId { get; set; }
     [InverseProperty("StudentEntity")]
     public virtual DepartmentEntity DepartmentEntity { get; set; }
     [InverseProperty("StudentEntity")]
