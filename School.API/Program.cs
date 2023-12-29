@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ApplyInfrastructureModuleServices(builder.Configuration);
 builder.Services.ApplyServicesModuleServices();
 builder.Services.ApplyCoreModuleServices();
-builder.Services.ApplyApiModuleServices(builder.Configuration);
+builder.Services.ApplyApiModuleServices(builder);
 
 var app = builder.Build();
 

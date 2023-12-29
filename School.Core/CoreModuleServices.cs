@@ -1,10 +1,15 @@
-﻿namespace School.Core
+﻿namespace School.Core;
+
+public static class CoreModuleServices
 {
-    public static class CoreModuleServices
+    public static IServiceCollection ApplyCoreModuleServices(this IServiceCollection services)
     {
-        public static IServiceCollection ApplyCoreModuleServices(this IServiceCollection services)
-        {
-            return services;
-        }
+        //MediatR
+        services.AddMediatR(opt => opt.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+        //Auto Mapper
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        return services;
     }
 }
