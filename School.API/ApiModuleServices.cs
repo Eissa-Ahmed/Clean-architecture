@@ -7,6 +7,7 @@ public static class ApiModuleServices
         // Add services to the container.
         services.AddControllers()
             .AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null);
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();

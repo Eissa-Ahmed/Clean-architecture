@@ -11,9 +11,8 @@ public static class CoreModuleServices
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         //Fluent Validation
-        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        //services.AddFluentValidationAutoValidation();
-        //services.AddFluentValidation();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

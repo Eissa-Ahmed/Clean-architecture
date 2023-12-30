@@ -1,4 +1,6 @@
-﻿namespace School.Infrastructure.Base;
+﻿using System.Linq.Expressions;
+
+namespace School.Infrastructure.Base;
 
 public interface IBaseRepository<T> where T : class
 {
@@ -14,7 +16,7 @@ public interface IBaseRepository<T> where T : class
     Task AddRangeAsync(ICollection<T> entities);
     Task UpdateAsync(T entity);
     Task UpdateRangeAsync(ICollection<T> entities);
-    Task DeleteAsync(T entity);
+    Task DeleteAsync(Expression<Func<T, bool>> filter);
     public Task<List<T>> GetAllAsync();
 
 }

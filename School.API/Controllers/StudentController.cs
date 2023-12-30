@@ -15,4 +15,28 @@ public class StudentController : BaseController
         var result = await Mediator.Send(new GetAllStudentModel());
         return NewResult(result);
     }
+    [HttpPost(StudentRoute.AssignStudentToDepartment)]
+    public async Task<IActionResult> AssignStudentToDepartment(AssignStudentToDepartmentModel model)
+    {
+        var result = await Mediator.Send(model);
+        return NewResult(result);
+    }
+    [HttpPost(StudentRoute.AssignSubjectsToStudent)]
+    public async Task<IActionResult> AssignSubjectsToStudent(AssignSubjectsToStudentModel model)
+    {
+        var result = await Mediator.Send(model);
+        return NewResult(result);
+    }
+    [HttpDelete(StudentRoute.DeleteAsync)]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        var result = await Mediator.Send(new DeleteStudentModel(id));
+        return NewResult(result);
+    }
+    [HttpDelete(StudentRoute.DeleteStudentFromDepartment)]
+    public async Task<IActionResult> DeleteStudentFromDepartment(int id)
+    {
+        var result = await Mediator.Send(new DeleteStudentFromDepartmentModel(id));
+        return NewResult(result);
+    }
 }

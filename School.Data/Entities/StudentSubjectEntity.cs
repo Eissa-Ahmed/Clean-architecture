@@ -4,15 +4,13 @@
     {
         public StudentSubjectEntity()
         {
-            StudentEntity = new();
-            SubjectEntity = new();
         }
         public int Id { get; set; }
         public int StudentId { get; set; }
         public int SubjectId { get; set; }
         [InverseProperty("StudentSubjectEntity")]
-        public virtual StudentEntity StudentEntity { get; set; }
+        public virtual StudentEntity? StudentEntity { get; set; }
         [InverseProperty("StudentSubjectEntity")]
-        public virtual SubjectEntity SubjectEntity { get; set; }
+        public virtual SubjectEntity? SubjectEntity { get; set; }
     }
 }
