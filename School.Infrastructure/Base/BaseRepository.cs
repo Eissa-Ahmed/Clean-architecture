@@ -1,4 +1,6 @@
-﻿namespace School.Infrastructure.Base
+﻿using System.Linq.Expressions;
+
+namespace School.Infrastructure.Base
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
@@ -58,9 +60,9 @@
 
         }
 
-        public virtual async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(Expression<Func<T, bool>> filter)
         {
-            _dbContext.Set<T>().Remove(entity);
+            _dbContext.Set<T>().Where(filter).ExecuteDelete();
             await _dbContext.SaveChangesAsync();
         }
         public virtual async Task DeleteRangeAsync(ICollection<T> entities)

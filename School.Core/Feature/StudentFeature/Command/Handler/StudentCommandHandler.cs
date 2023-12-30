@@ -1,8 +1,9 @@
-﻿using School.Core.Feature.StudentFeature.Command.Validation;
+﻿namespace School.Core.Feature.StudentFeature.Command.Handler;
 
-namespace School.Core.Feature.StudentFeature.Command.Handler;
-
-public class StudentCommandHandler : ResponseHandler, IRequestHandler<CreateStudentModel, Response<string>>
+public class StudentCommandHandler : ResponseHandler,
+    IRequestHandler<CreateStudentModel, Response<string>>,
+    IRequestHandler<AssignStudentToDepartmentModel, Response<string>>,
+    IRequestHandler<AssignSubjectsToStudentModel, Response<StudentWithSubjectsResult>>
 {
     private readonly IMapper _mapper;
     private readonly IStudentServices _studentServices;
@@ -13,26 +14,27 @@ public class StudentCommandHandler : ResponseHandler, IRequestHandler<CreateStud
     }
     public async Task<Response<string>> Handle(CreateStudentModel request, CancellationToken cancellationToken)
     {
+        var student = _mapper.Map<StudentEntity>(request);
+        var result = await _studentServices.CreateAsync(student);
+        if (result is null)
+            return BadRequest("Error When Save Student");
 
-        try
-        {
-            CreateStudentValidation validator = new CreateStudentValidation();
-            /*ValidationResult resultValidator =*/
-            validator.ValidateAndThrow(request);
-            /*if (!resultValidator.IsValid)
-                return BadRequest(resultValidator.ToString("||"));*/
+        return Success("Success Save Student");
+    }
 
-            var student = _mapper.Map<StudentEntity>(request);
-            var result = await _studentServices.CreateAsync(student);
-            if (result is null)
-                return BadRequest("Error When Save Student");
+    public async Task<Response<string>> Handle(AssignStudentToDepartmentModel request, CancellationToken cancellationToken)
+    {
+        var result = await _studentServices.AssignStudentToDepartment(request.IdStudent, request.IdDepartment);
+        return Success("Success Assign Student To Department");
+    }
 
-            return Success("Success Save Student");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-
+    public async Task<Response<StudentWithSubjectsResult>> Handle(AssignSubjectsToStudentModel request, CancellationToken cancellationToken)
+    {
+        var (student, subjects) = await _studentServices.AssignSubjectsToStudent(request.subjects, request.id);
+        StudentWithSubjectsResult studentWithSubjectsResult = new();
+        studentWithSubjectsResult = _mapper.Map(student, studentWithSubjectsResult);
+        var subjectsForStudentResult = _mapper.Map<List<SubjectsForStudentResult>>(subjects);
+        studentWithSubjectsResult.subjects = subjectsForStudentResult;
+        return Success("Success Add Subjects To Student", studentWithSubjectsResult);
     }
 }
