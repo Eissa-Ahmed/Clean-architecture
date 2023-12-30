@@ -2,7 +2,7 @@
 
 public class CreateStudentModel : IRequest<Response<string>>
 {
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = "dd";
     public string? Adress { get; set; } = null;
     public string Phone { get; set; } = null!;
 }

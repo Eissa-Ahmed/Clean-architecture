@@ -10,6 +10,11 @@ public static class CoreModuleServices
         //Auto Mapper
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+        //Fluent Validation
+        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        //services.AddFluentValidationAutoValidation();
+        //services.AddFluentValidation();
+
         return services;
     }
 }

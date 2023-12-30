@@ -15,4 +15,6 @@ public interface IBaseRepository<T> where T : class
     Task UpdateAsync(T entity);
     Task UpdateRangeAsync(ICollection<T> entities);
     Task DeleteAsync(T entity);
+    public Task<List<T>> GetAllAsync();
+
 }

@@ -9,4 +9,10 @@ public class StudentController : BaseController
         var result = await Mediator.Send(model);
         return NewResult(result);
     }
+    [HttpGet(StudentRoute.GetAllStudent)]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        var result = await Mediator.Send(new GetAllStudentModel());
+        return NewResult(result);
+    }
 }

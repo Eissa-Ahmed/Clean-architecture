@@ -27,7 +27,10 @@
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
-
+        public virtual async Task<List<T>> GetAllAsync()
+        {
+            return await _dbContext.Set<T>().ToListAsync();
+        }
         public IQueryable<T> GetTableNoTracking()
         {
             return _dbContext.Set<T>().AsNoTracking().AsQueryable();

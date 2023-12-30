@@ -2,7 +2,7 @@
 {
     public class ResponseHandler
     {
-        public Response<T> Success<T>(string? message, T? data)
+        public Response<T> Success<T>(string? message, T data)
         {
             return new Response<T>
             {

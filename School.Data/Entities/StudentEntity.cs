@@ -4,7 +4,6 @@ public class StudentEntity
 {
     public StudentEntity()
     {
-        DepartmentEntity = new();
         StudentSubjectEntity = new HashSet<StudentSubjectEntity>();
     }
     public int Id { get; set; }
@@ -13,7 +12,7 @@ public class StudentEntity
     public string Phone { get; set; } = null!;
     public int? DepartmentId { get; set; }
     [InverseProperty("StudentEntity")]
-    public virtual DepartmentEntity DepartmentEntity { get; set; }
+    public DepartmentEntity? DepartmentEntity { get; set; } = null;
     [InverseProperty("StudentEntity")]
-    public virtual ICollection<StudentSubjectEntity> StudentSubjectEntity { get; set; }
+    public virtual ICollection<StudentSubjectEntity>? StudentSubjectEntity { get; set; }
 }

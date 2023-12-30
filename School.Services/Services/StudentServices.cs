@@ -12,4 +12,10 @@ public class StudentServices : IStudentServices
         var result = await _studentRepository.AddAsync(student);
         return result;
     }
+
+    public async Task<List<StudentEntity>> GetAllAsync()
+    {
+        var result = await _studentRepository.GetAllAsync();
+        return result;
+    }
 }
