@@ -47,8 +47,8 @@ public class ErrorHandlerMiddleware
 
                 case Exception e:
                     responseModel.Message = e.Message;
-                    responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    responseModel.StatusCode = HttpStatusCode.BadRequest;
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
 
                 default:

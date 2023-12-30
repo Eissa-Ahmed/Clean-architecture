@@ -19,6 +19,7 @@ public class StudentSubjectConfiguration : IEntityTypeConfiguration<StudentSubje
               .HasForeignKey(f => f.SubjectId)
               .OnDelete(DeleteBehavior.Cascade);
 
+        entity.HasIndex(i => new { i.StudentId, i.SubjectId }).IsUnique();
         //Properity
         entity.Property(p => p.SubjectId)
               .IsRequired();

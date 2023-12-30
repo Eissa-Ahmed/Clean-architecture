@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace School.Services.Services;
+﻿namespace School.Services.Services;
 
 public class StudentServices : IStudentServices
 {
@@ -41,11 +39,16 @@ public class StudentServices : IStudentServices
             List<SubjectEntity> subjectEntity = new();
             foreach (var subjectId in subjects)
             {
-                StudentSubjectEntity.Add(new StudentSubjectEntity() { SubjectId = subjectId });
-                var subject = await _subjectRepository.GetTableNoTracking().FirstOrDefaultAsync(i => i.Id.Equals(subjectId));
+                if (student.StudentSubjectEntity!.Any(i => i.SubjectId.Equals(subjectId)))
+                    throw new Exception("You Try Add Subject Already Assigned To Student");
+
+                student.StudentSubjectEntity!.Add(new StudentSubjectEntity() { SubjectId = subjectId });
+            }
+            foreach (var studentSubject in student.StudentSubjectEntity!)
+            {
+                var subject = await _subjectRepository.GetTableNoTracking().FirstOrDefaultAsync(i => i.Id.Equals(studentSubject.SubjectId));
                 subjectEntity.Add(subject);
             }
-            student.StudentSubjectEntity = StudentSubjectEntity;
             await _studentRepository.UpdateAsync(student);
             return (student, subjectEntity);
         }
@@ -61,14 +64,32 @@ public class StudentServices : IStudentServices
         return result;
     }
 
-    public Task<string> DeleteAsync(string id)
+    public async Task<string> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        await _studentRepository.DeleteAsync(i => i.Id.Equals(id));
+        return "Success";
     }
 
-    public Task<string> DeleteStudentFromDepartment(int IdStudent, int IdDepartment)
+    public async Task<string> DeleteStudentFromDepartment(int IdStudent)
     {
-        throw new NotImplementedException();
+        using (var transaction = _studentRepository.BeginTransaction())
+        {
+            try
+            {
+                var student = await _studentRepository.GetByIdAsync(IdStudent);
+                student.DepartmentId = null;
+                student.StudentSubjectEntity = null;
+                await _studentRepository.UpdateAsync(student);
+
+                _studentRepository.Commit();
+                return "Success";
+            }
+            catch (Exception)
+            {
+                _studentRepository.RollBack();
+                throw;
+            }
+        }
     }
 
     public Task<string> DeleteSubjectsFromStudent(List<int> subjects, int id)
@@ -76,7 +97,13 @@ public class StudentServices : IStudentServices
         throw new NotImplementedException();
     }
 
-    public Task<List<StudentEntity>> GetAllAsync()
+    public async Task<List<StudentEntity>> GetAllAsync()
+    {
+        var students = await _studentRepository.GetAllAsync();
+        return students;
+    }
+
+    public Task<List<SubjectEntity>> GetAllSubjectForStudent(int IdStudent)
     {
         throw new NotImplementedException();
     }

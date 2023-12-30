@@ -7,5 +7,7 @@
         public const string GetAllStudent = Base + "GetAllStudent";
         public const string AssignStudentToDepartment = Base + "AssignStudentToDepartment";
         public const string AssignSubjectsToStudent = Base + "AssignSubjectsToStudent";
+        public const string DeleteAsync = Base + "DeleteAsync/{id}";
+        public const string DeleteStudentFromDepartment = Base + "DeleteStudentFromDepartment/{id}";
     }
 }

@@ -27,4 +27,16 @@ public class StudentController : BaseController
         var result = await Mediator.Send(model);
         return NewResult(result);
     }
+    [HttpDelete(StudentRoute.DeleteAsync)]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        var result = await Mediator.Send(new DeleteStudentModel(id));
+        return NewResult(result);
+    }
+    [HttpDelete(StudentRoute.DeleteStudentFromDepartment)]
+    public async Task<IActionResult> DeleteStudentFromDepartment(int id)
+    {
+        var result = await Mediator.Send(new DeleteStudentFromDepartmentModel(id));
+        return NewResult(result);
+    }
 }

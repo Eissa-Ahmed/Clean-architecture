@@ -3,6 +3,8 @@
 public class StudentCommandHandler : ResponseHandler,
     IRequestHandler<CreateStudentModel, Response<string>>,
     IRequestHandler<AssignStudentToDepartmentModel, Response<string>>,
+    IRequestHandler<DeleteStudentModel, Response<string>>,
+    IRequestHandler<DeleteStudentFromDepartmentModel, Response<string>>,
     IRequestHandler<AssignSubjectsToStudentModel, Response<StudentWithSubjectsResult>>
 {
     private readonly IMapper _mapper;
@@ -31,10 +33,23 @@ public class StudentCommandHandler : ResponseHandler,
     public async Task<Response<StudentWithSubjectsResult>> Handle(AssignSubjectsToStudentModel request, CancellationToken cancellationToken)
     {
         var (student, subjects) = await _studentServices.AssignSubjectsToStudent(request.subjects, request.id);
+
         StudentWithSubjectsResult studentWithSubjectsResult = new();
         studentWithSubjectsResult = _mapper.Map(student, studentWithSubjectsResult);
-        var subjectsForStudentResult = _mapper.Map<List<SubjectsForStudentResult>>(subjects);
-        studentWithSubjectsResult.subjects = subjectsForStudentResult;
+        studentWithSubjectsResult.subjects = _mapper.Map(subjects, studentWithSubjectsResult.subjects);
+
         return Success("Success Add Subjects To Student", studentWithSubjectsResult);
+    }
+
+    public async Task<Response<string>> Handle(DeleteStudentModel request, CancellationToken cancellationToken)
+    {
+        await _studentServices.DeleteAsync(request.Id);
+        return Success("Success Delete Student");
+    }
+
+    public async Task<Response<string>> Handle(DeleteStudentFromDepartmentModel request, CancellationToken cancellationToken)
+    {
+        var result = await _studentServices.DeleteStudentFromDepartment(request.Id);
+        return Success("Success Delete Student From Department");
     }
 }
