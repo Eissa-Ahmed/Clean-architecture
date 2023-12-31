@@ -6,13 +6,13 @@
         {
             subjects = new();
         }
-        public int Id { get; set; }
+        public int Guid { get; set; }
         public string Name { get; set; } = null!;
         public List<SubjectsForStudentResult> subjects { get; set; }
     }
     public class SubjectsForStudentResult
     {
-        public int Id { get; set; }
+        public int Guid { get; set; }
         public string Name { get; set; } = null!;
     }
 }

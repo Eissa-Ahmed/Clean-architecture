@@ -34,7 +34,7 @@
             }
         }
 
-        public bool DepartmentExist(int Id)
+        public bool DepartmentExist(Guid Id)
         {
             var department = _departmentRepository.GetTableNoTracking().FirstOrDefault(i => i.Id.Equals(Id));
             return department is null ? false : true;
@@ -53,7 +53,7 @@
             }
         }
 
-        public async Task<DepartmentEntity> GetByIdAsync(int id)
+        public async Task<DepartmentEntity> GetByIdAsync(Guid id)
         {
             try
             {
@@ -72,7 +72,7 @@
             return department is null ? false : true;
         }
 
-        public bool NameIsExistExceptForHimself(string name, int id)
+        public bool NameIsExistExceptForHimself(string name, Guid id)
         {
             var department = _departmentRepository.GetTableNoTracking().Where(x => x.Name == name && x.Id != id).FirstOrDefault();
             return department is null ? false : true;

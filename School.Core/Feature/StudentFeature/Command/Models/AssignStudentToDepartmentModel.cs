@@ -2,12 +2,12 @@
 {
     public class AssignStudentToDepartmentModel : IRequest<Response<string>>
     {
-        public AssignStudentToDepartmentModel(int idStudent, int idDepartment)
+        public AssignStudentToDepartmentModel(Guid idStudent, Guid idDepartment)
         {
             IdStudent = idStudent;
             IdDepartment = idDepartment;
         }
-        public int IdStudent { get; set; }
-        public int IdDepartment { get; set; }
+        public Guid IdStudent { get; set; }
+        public Guid IdDepartment { get; set; }
     }
 }

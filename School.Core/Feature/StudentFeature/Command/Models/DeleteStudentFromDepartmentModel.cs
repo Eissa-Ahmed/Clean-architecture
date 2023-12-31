@@ -2,8 +2,8 @@
 
 public class DeleteStudentFromDepartmentModel : IRequest<Response<string>>
 {
-    public int Id { get; set; }
-    public DeleteStudentFromDepartmentModel(int id)
+    public Guid Id { get; set; }
+    public DeleteStudentFromDepartmentModel(Guid id)
     {
         Id = id;
     }

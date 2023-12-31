@@ -2,8 +2,8 @@
 
 public class GetAllSubjectForStudentModel : IRequest<Response<List<GetAllSubjectForStudentResult>>>
 {
-    public int Id { get; set; }
-    public GetAllSubjectForStudentModel(int id)
+    public Guid Id { get; set; }
+    public GetAllSubjectForStudentModel(Guid id)
     {
         Id = id;
     }

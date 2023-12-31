@@ -8,7 +8,7 @@ namespace School.Infrastructure.Repository
         {
             _dbContext = dbContext;
         }
-        public override async Task<StudentEntity> GetByIdAsync(int id)
+        public override async Task<StudentEntity> GetByIdAsync(Guid id)
         {
             var student = await _dbContext.Students.Where(i => i.Id.Equals(id)).Include(i => i.StudentSubjectEntity).Include(i => i.DepartmentEntity).ThenInclude(i => i.DepartmentSubjectEntity).FirstOrDefaultAsync();
             return student;
