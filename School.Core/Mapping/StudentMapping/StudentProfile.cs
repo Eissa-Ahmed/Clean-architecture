@@ -7,5 +7,7 @@ public partial class StudentProfile : Profile
         ApplyCreateStudentMapping();
         ApplyGetAllStudentMapping();
         ApplyAssignSubjectsToStudentMapping();
+        ApplyGetAllSubjectForStudentMapping();
+        ApplyStudentUpdateMapping();
     }
 }

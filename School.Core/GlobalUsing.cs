@@ -4,6 +4,7 @@ global using MediatR;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.IdentityModel.Tokens;
 global using School.Core.Bases;
 global using School.Core.Behavior;
 global using School.Core.Feature.StudentFeature.Command.Models;

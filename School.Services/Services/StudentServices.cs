@@ -5,11 +5,13 @@ public class StudentServices : IStudentServices
     private readonly IStudentRepository _studentRepository;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly ISubjectRepository _subjectRepository;
-    public StudentServices(IStudentRepository studentRepository, IDepartmentRepository departmentRepository, ISubjectRepository subjectRepository)
+    private readonly IStudentSubjectRepository _studentSubjectRepository;
+    public StudentServices(IStudentRepository studentRepository, IDepartmentRepository departmentRepository, ISubjectRepository subjectRepository, IStudentSubjectRepository studentSubjectRepository)
     {
         _studentRepository = studentRepository;
         _departmentRepository = departmentRepository;
         _subjectRepository = subjectRepository;
+        _studentSubjectRepository = studentSubjectRepository;
     }
 
     public async Task<string> AssignStudentToDepartment(int IdStudent, int IdDepartment)
@@ -92,9 +94,16 @@ public class StudentServices : IStudentServices
         }
     }
 
-    public Task<string> DeleteSubjectsFromStudent(List<int> subjects, int id)
+    public async Task<string> DeleteSubjectsFromStudent(List<int> subjects, int id)
     {
-        throw new NotImplementedException();
+        var student = await _studentRepository.GetByIdAsync(id);
+        foreach (var subjectId in subjects)
+        {
+            var item = student.StudentSubjectEntity!.Where(i => i.SubjectId.Equals(subjectId)).FirstOrDefault();
+            student.StudentSubjectEntity!.Remove(item!);
+        }
+        await _studentRepository.UpdateAsync(student);
+        return "Success";
     }
 
     public async Task<List<StudentEntity>> GetAllAsync()
@@ -103,24 +112,33 @@ public class StudentServices : IStudentServices
         return students;
     }
 
-    public Task<List<SubjectEntity>> GetAllSubjectForStudent(int IdStudent)
+    public async Task<List<SubjectEntity>> GetAllSubjectForStudent(int IdStudent)
     {
-        throw new NotImplementedException();
+        List<SubjectEntity> entities = new List<SubjectEntity>();
+        var studentSubjects = await _studentSubjectRepository.GetTableNoTracking().Where(i => i.StudentId.Equals(IdStudent)).Include(i => i.SubjectEntity).ToListAsync();
+        foreach (var studentSubject in studentSubjects)
+        {
+            entities.Add(studentSubject.SubjectEntity!);
+        }
+        return entities;
     }
 
-    public Task<StudentEntity> GetByIdAsync()
+    public async Task<StudentEntity> GetByIdAsync(int Id)
     {
-        throw new NotImplementedException();
+        var student = await _studentRepository.GetTableNoTracking().Where(i => i.Id.Equals(Id)).FirstOrDefaultAsync();
+        return student;
     }
 
-    public bool NameIsExist(string name)
+    public async Task<bool> NameIsExist(string name)
     {
-        throw new NotImplementedException();
+        var student = await _studentRepository.GetTableNoTracking().Where(i => i.Name.ToLower().Equals(name.ToLower())).FirstOrDefaultAsync();
+        return student is null ? false : true;
     }
 
-    public bool NameIsExistExceptForHimself(string name, int id)
+    public async Task<bool> NameIsExistExceptForHimself(string name, int id)
     {
-        throw new NotImplementedException();
+        var student = await _studentRepository.GetTableNoTracking().Where(i => i.Name.ToLower().Equals(name.ToLower()) && !i.Id.Equals(id)).FirstOrDefaultAsync();
+        return student is null ? false : true;
     }
 
     public bool StudentExist(int Id)
@@ -138,8 +156,23 @@ public class StudentServices : IStudentServices
         return student.DepartmentId is null ? false : true;
     }
 
-    public Task<string> UpdateAsync(StudentEntity student)
+    public bool StudentExistInStudent(List<int> subjectsId, int id)
     {
-        throw new NotImplementedException();
+        var student = _studentRepository.GetTableNoTracking().Where(i => i.Id.Equals(id)).Include(i => i.StudentSubjectEntity).FirstOrDefault();
+        if (student is null)
+            return false;
+
+        foreach (var subjectId in subjectsId)
+        {
+            if (!student!.StudentSubjectEntity!.Any(i => i.SubjectId.Equals(subjectId)))
+                return false;
+        }
+        return true;
+    }
+
+    public async Task<string> UpdateAsync(StudentEntity student)
+    {
+        await _studentRepository.UpdateAsync(student);
+        return "Success";
     }
 }
