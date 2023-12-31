@@ -24,7 +24,7 @@ namespace School.Infrastructure.Base
         #endregion
 
         #region Actions
-        public virtual async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

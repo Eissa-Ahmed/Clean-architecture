@@ -9,13 +9,13 @@ public class SubjectServices : ISubjectServices
         _subjectRepository = subjectRepository;
         _studentRepository = studentRepository;
     }
-    public bool SubjectExist(int Id)
+    public bool SubjectExist(Guid Id)
     {
         var subject = _subjectRepository.GetTableNoTracking().FirstOrDefault(i => i.Id.Equals(Id));
         return subject is null ? false : true;
     }
 
-    public async Task<bool> SubjectExistInDepartmentOfStudent(List<int> ListOfIdSubject, int IdStudent)
+    public async Task<bool> SubjectExistInDepartmentOfStudent(List<Guid> ListOfIdSubject, Guid IdStudent)
     {
         var student = await _studentRepository.GetByIdAsync(IdStudent);
         if (student is null || student.DepartmentEntity is null)

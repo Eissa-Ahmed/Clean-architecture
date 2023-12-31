@@ -1,6 +1,6 @@
 ﻿namespace School.Infrastructure.DataAccessLayer;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
 {
     //public ApplicationDbContext() { }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option) : base(option) { }

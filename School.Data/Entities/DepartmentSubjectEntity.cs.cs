@@ -7,9 +7,9 @@ public class DepartmentSubjectEntity
         DepartmentEntity = new();
         SubjectEntity = new();
     }
-    public int Id { get; set; }
-    public int DepartmentId { get; set; }
-    public int SubjectId { get; set; }
+    public Guid Id { get; set; }
+    public Guid DepartmentId { get; set; }
+    public Guid SubjectId { get; set; }
     [InverseProperty("DepartmentSubjectEntity")]
     public DepartmentEntity DepartmentEntity { get; set; }
     [InverseProperty("DepartmentSubjectEntity")]

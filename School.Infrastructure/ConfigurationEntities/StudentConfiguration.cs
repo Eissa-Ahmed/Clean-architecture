@@ -23,7 +23,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<StudentEntity>
         entity.Property(p => p.Name)
               .IsRequired()
               .HasMaxLength(50);
-        entity.Property(p => p.Adress)
+        entity.Property(p => p.Address)
               .HasMaxLength(150);
         entity.Property(p => p.Phone)
               .HasMaxLength(15);

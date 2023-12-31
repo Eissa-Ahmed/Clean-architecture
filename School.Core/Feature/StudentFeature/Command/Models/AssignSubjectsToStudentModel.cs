@@ -6,6 +6,6 @@ public class AssignSubjectsToStudentModel : IRequest<Response<StudentWithSubject
     {
         subjects = new();
     }
-    public int id { get; set; }
-    public List<int> subjects { get; set; }
+    public Guid id { get; set; }
+    public List<Guid> subjects { get; set; }
 }

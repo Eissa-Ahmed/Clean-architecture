@@ -16,7 +16,7 @@ public class StudentController : BaseController
         return NewResult(result);
     }
     [HttpGet(StudentRoute.GetAllSubjectForStudent)]
-    public async Task<IActionResult> GetAllSubjectForStulldent(int id)
+    public async Task<IActionResult> GetAllSubjectForStulldent(Guid id)
     {
         var result = await Mediator.Send(new GetAllSubjectForStudentModel(id));
         return NewResult(result);
@@ -34,13 +34,13 @@ public class StudentController : BaseController
         return NewResult(result);
     }
     [HttpDelete(StudentRoute.DeleteAsync)]
-    public async Task<IActionResult> DeleteAsync(int id)
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
         var result = await Mediator.Send(new DeleteStudentModel(id));
         return NewResult(result);
     }
     [HttpDelete(StudentRoute.DeleteStudentFromDepartment)]
-    public async Task<IActionResult> DeleteStudentFromDepartment(int id)
+    public async Task<IActionResult> DeleteStudentFromDepartment(Guid id)
     {
         var result = await Mediator.Send(new DeleteStudentFromDepartmentModel(id));
         return NewResult(result);

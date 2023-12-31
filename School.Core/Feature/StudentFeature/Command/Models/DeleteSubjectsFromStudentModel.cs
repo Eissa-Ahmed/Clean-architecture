@@ -2,11 +2,11 @@
 
 public class DeleteSubjectsFromStudentModel : IRequest<Response<string>>
 {
-    public DeleteSubjectsFromStudentModel(int id, List<int> subjects)
+    public DeleteSubjectsFromStudentModel(Guid id, List<Guid> subjects)
     {
         Id = id;
         this.subjects = subjects;
     }
-    public int Id { get; set; }
-    public List<int> subjects { get; set; }
+    public Guid Id { get; set; }
+    public List<Guid> subjects { get; set; }
 }

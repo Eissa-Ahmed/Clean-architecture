@@ -8,7 +8,7 @@ public class SubjectEntity
         StudentSubjectEntity = new HashSet<StudentSubjectEntity>();
 
     }
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = null!;
     public DateTime Period { get; set; }
     [InverseProperty("SubjectEntity")]

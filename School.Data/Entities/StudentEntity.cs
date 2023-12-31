@@ -6,11 +6,11 @@ public class StudentEntity
     {
         StudentSubjectEntity = new HashSet<StudentSubjectEntity>();
     }
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = null!;
     public string? Address { get; set; } = null;
     public string Phone { get; set; } = null!;
-    public int? DepartmentId { get; set; }
+    public Guid? DepartmentId { get; set; }
     [InverseProperty("StudentEntity")]
     public DepartmentEntity? DepartmentEntity { get; set; } = null;
     [InverseProperty("StudentEntity")]

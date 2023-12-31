@@ -14,7 +14,7 @@ public class StudentServices : IStudentServices
         _studentSubjectRepository = studentSubjectRepository;
     }
 
-    public async Task<string> AssignStudentToDepartment(int IdStudent, int IdDepartment)
+    public async Task<string> AssignStudentToDepartment(Guid IdStudent, Guid IdDepartment)
     {
         try
         {
@@ -32,7 +32,7 @@ public class StudentServices : IStudentServices
         }
     }
 
-    public async Task<(StudentEntity, List<SubjectEntity>)> AssignSubjectsToStudent(List<int> subjects, int id)
+    public async Task<(StudentEntity, List<SubjectEntity>)> AssignSubjectsToStudent(List<Guid> subjects, Guid id)
     {
         try
         {
@@ -66,13 +66,13 @@ public class StudentServices : IStudentServices
         return result;
     }
 
-    public async Task<string> DeleteAsync(int id)
+    public async Task<string> DeleteAsync(Guid id)
     {
         await _studentRepository.DeleteAsync(i => i.Id.Equals(id));
         return "Success";
     }
 
-    public async Task<string> DeleteStudentFromDepartment(int IdStudent)
+    public async Task<string> DeleteStudentFromDepartment(Guid IdStudent)
     {
         using (var transaction = _studentRepository.BeginTransaction())
         {
@@ -94,7 +94,7 @@ public class StudentServices : IStudentServices
         }
     }
 
-    public async Task<string> DeleteSubjectsFromStudent(List<int> subjects, int id)
+    public async Task<string> DeleteSubjectsFromStudent(List<Guid> subjects, Guid id)
     {
         var student = await _studentRepository.GetByIdAsync(id);
         foreach (var subjectId in subjects)
@@ -112,7 +112,7 @@ public class StudentServices : IStudentServices
         return students;
     }
 
-    public async Task<List<SubjectEntity>> GetAllSubjectForStudent(int IdStudent)
+    public async Task<List<SubjectEntity>> GetAllSubjectForStudent(Guid IdStudent)
     {
         List<SubjectEntity> entities = new List<SubjectEntity>();
         var studentSubjects = await _studentSubjectRepository.GetTableNoTracking().Where(i => i.StudentId.Equals(IdStudent)).Include(i => i.SubjectEntity).ToListAsync();
@@ -123,7 +123,7 @@ public class StudentServices : IStudentServices
         return entities;
     }
 
-    public async Task<StudentEntity> GetByIdAsync(int Id)
+    public async Task<StudentEntity> GetByIdAsync(Guid Id)
     {
         var student = await _studentRepository.GetTableNoTracking().Where(i => i.Id.Equals(Id)).FirstOrDefaultAsync();
         return student;
@@ -135,19 +135,19 @@ public class StudentServices : IStudentServices
         return student is null ? false : true;
     }
 
-    public async Task<bool> NameIsExistExceptForHimself(string name, int id)
+    public async Task<bool> NameIsExistExceptForHimself(string name, Guid id)
     {
         var student = await _studentRepository.GetTableNoTracking().Where(i => i.Name.ToLower().Equals(name.ToLower()) && !i.Id.Equals(id)).FirstOrDefaultAsync();
         return student is null ? false : true;
     }
 
-    public bool StudentExist(int Id)
+    public bool StudentExist(Guid Id)
     {
         var student = _studentRepository.GetTableNoTracking().FirstOrDefault(i => i.Id.Equals(Id));
         return student is null ? false : true;
     }
 
-    public bool StudentExistInDepartment(int Id)
+    public bool StudentExistInDepartment(Guid Id)
     {
         var student = _studentRepository.GetTableNoTracking().FirstOrDefault(i => i.Id.Equals(Id));
         if (student is null)
@@ -156,7 +156,7 @@ public class StudentServices : IStudentServices
         return student.DepartmentId is null ? false : true;
     }
 
-    public bool StudentExistInStudent(List<int> subjectsId, int id)
+    public bool StudentExistInStudent(List<Guid> subjectsId, Guid id)
     {
         var student = _studentRepository.GetTableNoTracking().Where(i => i.Id.Equals(id)).Include(i => i.StudentSubjectEntity).FirstOrDefault();
         if (student is null)

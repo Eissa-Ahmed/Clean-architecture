@@ -5,7 +5,7 @@ namespace School.Infrastructure.Base;
 public interface IBaseRepository<T> where T : class
 {
     Task DeleteRangeAsync(ICollection<T> entities);
-    Task<T> GetByIdAsync(int id);
+    Task<T> GetByIdAsync(Guid id);
     Task SaveChangesAsync();
     IDbContextTransaction BeginTransaction();
     void Commit();
