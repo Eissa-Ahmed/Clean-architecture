@@ -5,6 +5,8 @@ public class StudentCommandHandler : ResponseHandler,
     IRequestHandler<AssignStudentToDepartmentModel, Response<string>>,
     IRequestHandler<DeleteStudentModel, Response<string>>,
     IRequestHandler<DeleteStudentFromDepartmentModel, Response<string>>,
+    IRequestHandler<DeleteSubjectsFromStudentModel, Response<string>>,
+    IRequestHandler<StudentUpdateModel, Response<string>>,
     IRequestHandler<AssignSubjectsToStudentModel, Response<StudentWithSubjectsResult>>
 {
     private readonly IMapper _mapper;
@@ -51,5 +53,18 @@ public class StudentCommandHandler : ResponseHandler,
     {
         var result = await _studentServices.DeleteStudentFromDepartment(request.Id);
         return Success("Success Delete Student From Department");
+    }
+
+    public async Task<Response<string>> Handle(DeleteSubjectsFromStudentModel request, CancellationToken cancellationToken)
+    {
+        var result = await _studentServices.DeleteSubjectsFromStudent(request.subjects, request.Id);
+        return Success("Success Delete Subjects From Student");
+    }
+
+    public async Task<Response<string>> Handle(StudentUpdateModel request, CancellationToken cancellationToken)
+    {
+        var student = _mapper.Map<StudentEntity>(request);
+        var result = await _studentServices.UpdateAsync(student);
+        return Success("Success Update Student");
     }
 }

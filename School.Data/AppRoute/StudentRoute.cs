@@ -9,5 +9,8 @@
         public const string AssignSubjectsToStudent = Base + "AssignSubjectsToStudent";
         public const string DeleteAsync = Base + "DeleteAsync/{id}";
         public const string DeleteStudentFromDepartment = Base + "DeleteStudentFromDepartment/{id}";
+        public const string DeleteSubjectsFromStudent = Base + "DeleteSubjectsFromStudent";
+        public const string GetAllSubjectForStudent = Base + "GetAllSubjectForStudent";
+        public const string StudentUpdate = Base + "StudentUpdate";
     }
 }
